@@ -1,4 +1,4 @@
-module AnimalQuiz
+module Quiz
   class Engine
     def initialize output
       @output = output

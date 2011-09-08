@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module AnimalQuiz
+module Quiz
   describe Engine do
     let(:output) { double('output').as_null_object }
     let(:engine) { Engine.new(output) }
