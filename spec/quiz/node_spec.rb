@@ -5,9 +5,10 @@ module Quiz
     let(:output) { double('output').as_null_object }
 
     context "asking" do
-      it "should ask if I'm Justin" do
+      it "should ask if I'm a bear" do
         node = Node.new(output)
-        output.should_receive(:puts).with("Are you Justin?")
+        node.question = "Are you a bear?"
+        output.should_receive(:puts).with("Are you a bear?")
         node.ask
       end
     end
@@ -16,8 +17,10 @@ module Quiz
       context "when a user answers 'no'" do
         it "should say 'You win!'" do
           node = Node.new(output)
+          node.animal = "bear"
+          node.question = "Are you a bear?"
           node.stub!(:gets) { "no\n" }
-          output.should_receive(:puts).with("You win!")
+          output.should_receive(:puts).with("You win! Help me learn from my mistake before you go...")
           node.ask
         end
       end
@@ -25,7 +28,9 @@ module Quiz
       context "when a user answers 'yes'" do
         it "should say 'I win!'" do
           node = Node.new(output)
+          node.question = "Are you a bear?"
           node.stub!(:gets) { "yes\n" }
+          node.animal = "bear"
           output.should_receive(:puts).with("I win!")
           node.ask
         end
