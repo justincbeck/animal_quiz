@@ -4,10 +4,12 @@ module Quiz
   describe Node do
     let(:output) { double('output').as_null_object }
 
-    it "should ask if I'm Justin" do
-      node = Node.new(output)
-      output.should_receive(:puts).with("Are you Justin?")
-      node.ask
+    context "asking" do
+      it "should ask if I'm Justin" do
+        node = Node.new(output)
+        output.should_receive(:puts).with("Are you Justin?")
+        node.ask
+      end
     end
 
     context "answering" do
