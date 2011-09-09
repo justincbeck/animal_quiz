@@ -58,9 +58,9 @@ module Quiz
     def teach_me
       @output.puts "What animal are you thinking of?"
       animal = gets.chomp
-      @output.puts "Give me a question to distinguish a " + @animal + " from a " + animal + "."
+      @output.puts "Give me a question to distinguish a #{@animal} from a #{animal}."
       question = gets.chomp
-      @output.puts "For " + animal + " what is the answer to your question? (yes or no)"
+      @output.puts "For #{animal} what is the answer to your question? (yes or no)"
       answer = gets.chomp
 
       insert_new_node animal, question, answer
@@ -90,7 +90,7 @@ module Quiz
 
     def construct_new_animal animal, new_parent
       new_animal = Node.new(@output)
-      new_animal.question = "Are you a " + animal + "?"
+      new_animal.question = "Are you a #{animal}?"
       new_animal.animal = animal
       new_animal.parent = new_parent
       new_animal

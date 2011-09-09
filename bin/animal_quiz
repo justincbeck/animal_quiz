@@ -5,7 +5,7 @@ require 'quiz'
 engine = Quiz::Engine.new $stdout
 root = Quiz::Node.new($stdout)
 root.animal = "bear"
-root.question = "Are you a bear?"
+root.question = "Are you a #{root.animal}?"
 root.root = root
 root.parent = root
 engine.root = root
