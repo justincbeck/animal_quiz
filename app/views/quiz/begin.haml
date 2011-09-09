@@ -1,4 +1,20 @@
-%h1
-  Quiz#begin
-%p
-  Find me in app/views/quiz/begin.haml
+.question
+  Are you a bear?
+%input{ :type => :button, :value => "yes", :onclick => "javascript: answer('y');" }
+%input{ :type => :button, :value => "no", :onclick => "javascript: answer('n');" }
+
+:javascript
+  function answer(response) {
+    console.log(response);
+    dojo.xhrGet({
+      url: "#{test_url}",
+      method: "get",
+      handleAs: "json",
+      load: function(data) {
+        console.log("Success!");
+      },
+      error: function(err) {
+        console.log("Failure!");
+      }
+    });
+  }

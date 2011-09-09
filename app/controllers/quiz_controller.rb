@@ -1,8 +1,11 @@
 class QuizController < ApplicationController
   def begin
-    root = generate_seed
+#    root = generate_seed
+#    root.ask
+  end
 
-    root.ask
+  def test
+    render :json => { :foo => :bar }.to_json
   end
 
   private

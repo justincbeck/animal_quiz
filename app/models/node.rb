@@ -49,11 +49,7 @@ class Node < ActiveRecord::Base
     @output.puts "Play again? (yes or no)"
     again = gets.chomp
     if again.eql?("yes")
-      if self.root.nil?
-        self.ask
-      else
-        self.root.ask
-      end
+      self.root.ask
     else
       @output.puts "Goodbye!"
     end
@@ -114,7 +110,7 @@ class Node < ActiveRecord::Base
     if self.parent == self
       self.parent = new_parent
     else
-      if @parent.answer.eql? "no"
+      if self.parent.answer.eql? "no"
         self.parent.no = new_parent
       else
         self.parent.yes = new_parent
