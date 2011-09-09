@@ -41,45 +41,6 @@ module Quiz
       end
     end
 
-    def insert_new_node animal, question, answer
-      new_parent = Node.new(@output)
-      new_parent.question = question
-
-      new_animal = Node.new(@output)
-      new_animal.question = "Are you a " + animal + "?"
-      new_animal.animal = animal
-      new_animal.parent = new_parent
-
-      if answer.eql? "yes"
-        new_parent.no = self
-        new_parent.yes = new_animal
-      else
-        new_parent.yes = self
-        new_parent.no = new_animal
-      end
-
-      if @root == self
-        @root = new_parent
-      end
-
-      new_parent.root = @root
-      new_animal.root = @root
-
-      if @parent == self
-        @parent = new_parent
-      else
-        if @parent.answer.eql? "no"
-          @parent.no = new_parent
-        else
-          @parent.yes = new_parent
-        end
-
-        new_parent.parent = @parent
-        @parent = new_parent
-      end
-
-    end
-
     def play_again
       @output.puts "Play again? (yes or no)"
       again = gets.chomp
@@ -103,6 +64,61 @@ module Quiz
       answer = gets.chomp
 
       insert_new_node animal, question, answer
+    end
+
+    def insert_new_node animal, question, answer
+      new_parent = construct_new_parent question
+      new_animal = construct_new_animal animal, new_parent
+
+      assign_to_new_parent new_parent, new_animal, answer
+
+      if @root == self
+        @root = new_parent
+      end
+
+      new_parent.root = @root
+      new_animal.root = @root
+
+      insert_into_tree new_parent
+    end
+
+    def construct_new_parent question
+      new_parent = Node.new(@output)
+      new_parent.question = question
+      new_parent
+    end
+
+    def construct_new_animal animal, new_parent
+      new_animal = Node.new(@output)
+      new_animal.question = "Are you a " + animal + "?"
+      new_animal.animal = animal
+      new_animal.parent = new_parent
+      new_animal
+    end
+
+    def assign_to_new_parent new_parent, new_animal, answer
+      if answer.eql? "yes"
+        new_parent.no = self
+        new_parent.yes = new_animal
+      else
+        new_parent.yes = self
+        new_parent.no = new_animal
+      end
+    end
+
+    def insert_into_tree new_parent
+      if @parent == self
+        @parent = new_parent
+      else
+        if @parent.answer.eql? "no"
+          @parent.no = new_parent
+        else
+          @parent.yes = new_parent
+        end
+
+        new_parent.parent = @parent
+        @parent = new_parent
+      end
     end
   end
 end
