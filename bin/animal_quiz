@@ -1,6 +1,12 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'animal_quiz'
+require 'quiz'
 
-engine = AnimalQuiz::Engine.new $stdout
+engine = Quiz::Engine.new $stdout
+root = Quiz::Node.new($stdout)
+root.animal = "bear"
+root.question = "Are you a #{root.animal}?"
+root.root = root
+root.parent = root
+engine.root = root
 engine.start_quiz
