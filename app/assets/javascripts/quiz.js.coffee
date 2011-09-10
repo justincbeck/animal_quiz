@@ -3,4 +3,6 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 square = (x) -> x * x
-alert square(10)
+console.log(square(10))
+
+# I need to convert all the JS in the views to CS here.  Hmmm, tricky.
