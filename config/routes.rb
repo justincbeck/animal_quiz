@@ -13,6 +13,8 @@ AnimalQuiz::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
   match 'quiz/ask' => 'quiz#ask', :as => :ask
   match 'quiz/answer' => 'quiz#answer', :as => :answer
+  match 'quiz/new_node' => 'quiz#new_node', :as => :new_node
+
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 

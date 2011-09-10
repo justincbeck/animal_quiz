@@ -36,6 +36,23 @@
   answer = function() {
     dojo.query("#text")[0].innerText = "Thanks! Play again?";
     dojo.attr(dojo.query("#answer")[0], "class", "hide");
+    dojo.xhrGet({
+      url: "#{new_node_url}",
+      content: {
+        "animal" : "squirel",
+        "question" : "Do you store nuts?",
+        "answer" : "yes",
+        "parent" : dojo.query("#node")[0].value
+      },
+      method: "get",
+      handleAs: "json",
+      load: function(data) {
+        console.log("New node created");
+      },
+      error: function(err) {
+        dojo.query("#text")[0].innerText = "Uh-oh, something went wrong!";
+      }
+    });
   }
 
   ask = function() {

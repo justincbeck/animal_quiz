@@ -23,4 +23,12 @@ class QuizController < ApplicationController
       end
     end
   end
+
+  def new_node
+    parent = Node.find(params[:parent])
+    node = Node.new({:animal => params[:animal], :question => params[:question], :answer => params[:answer], :parent => parent})
+    node.save
+
+    render :json => {:success => true}
+  end
 end
