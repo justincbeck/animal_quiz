@@ -2,12 +2,12 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-body{
+body {
   height: 100%;
   width: 100%;
 }
 
-.centered {
+#outer.centered {
   position: absolute;
   left:40%;
   top:45%;
@@ -16,43 +16,26 @@ body{
   margin: auto;
 }
 
-.ok_button {
+.show {
   display: inline;
 }
 
-.ok_button_hidden {
+.hide {
   display: none;
-}
-
-.other_buttons {
-  display: inline;
-}
-
-.other_buttons_hidden {
-  display: none;
-}
-
-.button {
-  font-size: 20px;
 }
 
 .buttons {
-  align: center;
+  display: block;
 }
 
-.question {
+.text {
   font-size: 1.5em;
   font-family: helvetica;
+  margin-bottom: 10px;
 }
 
-.quizing {
-  // Nothing to see here
-}
-
-.learning {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  margin-top: -25%;
-  margin-left: -25%;
+input.button {
+  font-size: 30px;
+  width: 50px;
+  height: 2em;
 }

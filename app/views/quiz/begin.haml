@@ -1,60 +1,88 @@
-.centered.quizzing
-  .question
+#outer.centered
+  #text.show.text
     Think of an animal...
 
-  %input.node{ :type => :hidden }
-  .buttons
-    .ok_button
-      %input.ok.button{ :type => :button, :value => "OK", :onclick => "javascript: ask();" }
-    .other_buttons_hidden
-      %input.yes.button{ :type => :button, :value => "YES", :onclick => "javascript: answer('y');" }
-      %input.no.button{ :type => :button, :value => "NO", :onclick => "javascript: answer('n');" }
+  #animal.hide
+    %input#animal_input
+    %input#animal_button.button{ :type => :button, :value => "OK", :onclick => "javascript: animal();" }
+  #question.hide
+    %input#question_input
+    %input#animal_button.button{ :type => :button, :value => "OK", :onclick => "javascript: question();" }
+  #answer.hide
+    %input#answer_input
+    %input#animal_button.button{ :type => :button, :value => "OK", :onclick => "javascript: answer();" }
 
-.learning
-
+  %input#node.hide
+  #buttons
+    #ok_button.show
+      %input#go.button{ :type => :button, :value => "OK", :onclick => "javascript: ask();" }
+    #other_buttons.hide
+      %input#yes.button{ :type => :button, :value => "YES", :onclick => "javascript: response('y');" }
+      %input#no.button{ :type => :button, :value => "NO", :onclick => "javascript: response('n');" }
 
 :javascript
-  function ask() {
-    dojo.attr(dojo.query(".ok_button")[0], "class", "ok_button_hidden");
-    dojo.attr(dojo.query(".other_buttons_hidden")[0], "class", "other_buttons");
+  animal = function() {
+    dojo.attr(dojo.query("#animal")[0], "class", "hide");
+    dojo.query("#text")[0].innerText = "Question:";
+    dojo.attr(dojo.query("#question")[0], "class", "show");
+  }
+
+  question = function() {
+    dojo.attr(dojo.query("#question")[0], "class", "hide");
+    dojo.query("#text")[0].innerText = "Answer:";
+    dojo.attr(dojo.query("#answer")[0], "class", "show");
+  }
+
+  answer = function() {
+    dojo.query("#text")[0].innerText = "Thanks! Play again?";
+    dojo.attr(dojo.query("#answer")[0], "class", "hide");
+  }
+
+  ask = function() {
+    dojo.attr(dojo.query("#ok_button")[0], "class", "hide");
+    dojo.attr(dojo.query("#other_buttons")[0], "class", "show");
     dojo.xhrGet({
       url: "#{ask_url}",
       method: "get",
       handleAs: "json",
       load: function(data) {
-        console.log(data["foo"]);
-        dojo.query(".question")[0].innerText = data["question"];
-        dojo.query(".node")[0].value = data["node_id"];
+        dojo.query("#text")[0].innerText = data["question"];
+        dojo.query("#node")[0].value = data["node_id"];
       },
       error: function(err) {
-        dojo.query(".question")[0].innerText = err;
+        dojo.query("#text")[0].innerText = "Uh-oh, something went wrong!";
       }
     });
   }
 
-  function answer(response) {
-    if(response == ("n"))
-    {
-      console.log("NO!");
-    }
-    else
-    {
-      console.log("YES!");
-    }
-
+  response = function(response) {
     dojo.xhrGet({
       url: "#{answer_url}",
       content: {
         "response" : response,
-        "node_id" : dojo.query(".node")[0].value
+        "node_id" : dojo.query("#node")[0].value
       },
       method: "get",
       handleAs: "json",
       load: function(data) {
-        dojo.query(".question")[0].innerText = data["answer"];
+        if (data["winner"])
+        {
+          dojo.attr(dojo.query("#buttons")[0], "class", "hide");
+          dojo.query("#text")[0].innerText = "You win! Help me learn from my mistake before you go...";
+          setTimeout('dojo.query("#text")[0].innerText = "What animal are you?"', 2000);
+          setTimeout('dojo.attr(dojo.query("#animal")[0], "class", "show")', 2000);
+        }
+        else if (!data["winner"])
+        {
+          dojo.query("#text")[0].innerText = data["answer"];
+        }
+        else
+        {
+          dojo.query("#text")[0].innerText = data["answer"];
+        }
       },
       error: function(err) {
-        console.log("Failure!");
+        dojo.query("#text")[0].innerText = "Uh-oh, something went wrong!";
       }
     });
   }

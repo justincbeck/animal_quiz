@@ -1,6 +1,6 @@
 class Node < ActiveRecord::Base
-  has_one :no, :class_name => "Node"
-  has_one :yes, :class_name => "Node"
+  has_one :no, :class_name => "Node", :foreign_key => :parent_id
+  has_one :yes, :class_name => "Node", :foreign_key => :parent_id
   belongs_to :parent, :class_name => "Node"
 
   attr_accessor :answer
