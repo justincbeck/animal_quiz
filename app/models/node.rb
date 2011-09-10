@@ -19,6 +19,9 @@ class Node < ActiveRecord::Base
       when "no" then
         do_no
     end
+  end
+
+  def answer
 
   end
 
