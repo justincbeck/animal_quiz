@@ -3,7 +3,7 @@ class Node < ActiveRecord::Base
   has_one :yes, :class_name => "Node"
   belongs_to :parent, :class_name => "Node"
 
-  attr_accessor :animal, :question, :answer, :root, :parent
+  attr_accessor :answer
 
   def ask
     @output.puts question
