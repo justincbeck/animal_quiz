@@ -1,13 +1,17 @@
-.question
-  Think of an animal...
+.quizzing
+  .question
+    Think of an animal...
 
-%input.node{ :type => :hidden }
-.buttons
-  .ok_button
-    %input.ok{ :type => :button, :value => "OK", :onclick => "javascript: ask();" }
-  .other_buttons_hidden
-    %input.yes{ :type => :button, :value => "yes", :onclick => "javascript: answer('y');" }
-    %input.no{ :type => :button, :value => "no", :onclick => "javascript: answer('n');" }
+  %input.node{ :type => :hidden }
+  .buttons
+    .ok_button
+      %input.ok.button{ :type => :button, :value => "OK", :onclick => "javascript: ask();" }
+    .other_buttons_hidden
+      %input.yes.button{ :type => :button, :value => "YES", :onclick => "javascript: answer('y');" }
+      %input.no.button{ :type => :button, :value => "NO", :onclick => "javascript: answer('n');" }
+
+.learning
+
 
 :javascript
   function ask() {
@@ -29,8 +33,21 @@
   }
 
   function answer(response) {
+    if(response == ("n"))
+    {
+      console.log("NO!");
+    }
+    else
+    {
+      console.log("YES!");
+    }
+
     dojo.xhrGet({
       url: "#{answer_url}",
+      content: {
+        "response" : response,
+        "node_id" : dojo.query(".node")[0].value
+      },
       method: "get",
       handleAs: "json",
       load: function(data) {

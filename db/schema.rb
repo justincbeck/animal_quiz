@@ -11,11 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110909162703) do
+ActiveRecord::Schema.define(:version => 20110910121054) do
 
   create_table "nodes", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "parent_id"
+    t.boolean  "root",       :default => false, :null => false
+    t.string   "animal"
+    t.string   "question"
   end
 
 end

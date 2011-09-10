@@ -2,13 +2,8 @@ class Node < ActiveRecord::Base
   has_one :no, :class_name => "Node"
   has_one :yes, :class_name => "Node"
   belongs_to :parent, :class_name => "Node"
-  belongs_to :root, :class_name => "Node"
 
   attr_accessor :animal, :question, :answer, :root, :parent
-
-  def initialize(output)
-    @output = output
-  end
 
   def ask
     @output.puts question

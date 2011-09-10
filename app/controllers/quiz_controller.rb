@@ -7,6 +7,8 @@ class QuizController < ApplicationController
   end
 
   def answer
+    logger.info("Response: " + params[:response])
+    logger.info("Node ID: " + params[:node_id])
     render :json => { :answer => "I win!" }.to_json
   end
 end
