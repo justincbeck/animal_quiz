@@ -37,6 +37,5 @@ gem 'haml'
 gem 'rspec'
 gem 'rspec-rails'
 gem 'rubygems-update'
-gem 'ruby-debug-ide'
 
 gem 'mysql'

@@ -17,6 +17,8 @@ ActiveRecord::Schema.define(:version => 20110910121054) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "parent_id"
+    t.integer  "no_id"
+    t.integer  "yes_id"
     t.boolean  "root",       :default => false, :null => false
     t.string   "animal"
     t.string   "question"

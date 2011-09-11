@@ -32,7 +32,7 @@
   }
 
   // Question: Please provide a question that would help me
-  // distinguish the animal I guessed form the animla you
+  // distinguish the animal I guessed form the animal you
   // were thinking of
   question = function() {
     dojo.attr(dojo.query("#question")[0], "class", "hide");
@@ -48,18 +48,18 @@
     dojo.xhrGet({
       url: "#{new_node_url}",
       content: {
-        "animal" : dojo.query("#animal")[0].children[0].value,
-        "question" : dojo.query("#question")[0].children[0].value,
-        "answer" : dojo.query("#answer")[0].children[0].value,
+        "animal" : dojo.query("#animal input")[0].value,
+        "question" : dojo.query("#question input")[0].value,
+        "answer" : dojo.query("#answer input")[0].value,
         "parent" : dojo.query("#node")[0].value
       },
       method: "get",
       handleAs: "json",
       load: function(data) {
         console.log("New node created");
-        dojo.query("#animal")[0].children[0].value = "";
-        dojo.query("#question")[0].children[0].value = "";
-        dojo.query("#answer")[0].children[0].value = "";
+        dojo.query("#animal input")[0].value = "";
+        dojo.query("#question input")[0].value = "";
+        dojo.query("#answer input")[0].value = "";
       },
       error: function(err) {
         dojo.query("#text")[0].innerText = "Uh-oh, something went wrong!";
@@ -99,16 +99,17 @@
       method: "get",
       handleAs: "json",
       load: function(data) {
-        if (data["winner"])
+        if (data["p_winner"])
         {
           dojo.attr(dojo.query("#buttons")[0], "class", "hide");
           dojo.query("#text")[0].innerText = "You win! Help me learn from my mistake before you go...";
           setTimeout('dojo.query("#text")[0].innerText = "What animal are you?"', 2000);
           setTimeout('dojo.attr(dojo.query("#animal")[0], "class", "show")', 2000);
         }
-        else if (!data["winner"])
+        else if (data["c_winner"])
         {
-          dojo.query("#text")[0].innerText = data["question"];
+          dojo.attr(dojo.query("#buttons")[0], "class", "hide");
+          dojo.query("#text")[0].innerText = "I win!";
           dojo.query("#node")[0].value = data["node_id"];
         }
         else
