@@ -13,13 +13,15 @@ class QuizController < ApplicationController
       if node.yes.nil?
         render :json => {:answer => "I win!", :winner => false}.to_json
       else
-        redirect_to :ask, :params => {:node => node.id}
+        node = !params[:node].nil? ? Node.find(params[:node]) : Node.find_by_root(true)
+        render :json => {:node_id => node.id, :question => node.question}.to_json
       end
     else
       if node.no.nil?
         render :json => {:answer => "You win!", :winner => true}.to_json
       else
-        redirect_to :ask, :params => {:node => node.id}
+        node = !params[:node].nil? ? Node.find(params[:node]) : Node.find_by_root(true)
+        render :json => {:node_id => node.id, :question => node.question}.to_json
       end
     end
   end

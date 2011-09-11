@@ -2,6 +2,7 @@
   #text.show.text
     Think of an animal...
 
+  // This section is for gathering new info on a new node
   #animal.hide
     %input#animal_input
     %input#animal_button.button{ :type => :button, :value => "OK", :onclick => "javascript: animal();" }
@@ -12,6 +13,7 @@
     %input#answer_input
     %input#animal_button.button{ :type => :button, :value => "OK", :onclick => "javascript: answer();" }
 
+  // This section is for asking node questions and gathering responses
   %input#node.hide
   #buttons
     #ok_button.show
@@ -106,11 +108,13 @@
         }
         else if (!data["winner"])
         {
-          dojo.query("#text")[0].innerText = data["answer"];
+          dojo.query("#text")[0].innerText = data["question"];
+          dojo.query("#node")[0].value = data["node_id"];
         }
         else
         {
-          dojo.query("#text")[0].innerText = data["answer"];
+          dojo.query("#text")[0].innerText = data["question"];
+          dojo.query("#node")[0].value = data["node_id"];
         }
       },
       error: function(err) {
