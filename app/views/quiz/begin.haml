@@ -21,33 +21,43 @@
       %input#no.button{ :type => :button, :value => "NO", :onclick => "javascript: response('n');" }
 
 :javascript
+  // Methods for gathering info to populate new node(s)
+  // Animal: What animal were you thinking of?
   animal = function() {
     dojo.attr(dojo.query("#animal")[0], "class", "hide");
     dojo.query("#text")[0].innerText = "Question:";
     dojo.attr(dojo.query("#question")[0], "class", "show");
   }
 
+  // Question: Please provide a question that would help me
+  // distinguish the animal I guessed form the animla you
+  // were thinking of
   question = function() {
     dojo.attr(dojo.query("#question")[0], "class", "hide");
     dojo.query("#text")[0].innerText = "Answer:";
     dojo.attr(dojo.query("#answer")[0], "class", "show");
   }
 
+  // Answer: What would the answer to the question you just
+  // gave me be for the animal you were just thinking of?
   answer = function() {
     dojo.query("#text")[0].innerText = "Thanks! Play again?";
     dojo.attr(dojo.query("#answer")[0], "class", "hide");
     dojo.xhrGet({
       url: "#{new_node_url}",
       content: {
-        "animal" : "squirel",
-        "question" : "Do you store nuts?",
-        "answer" : "yes",
+        "animal" : dojo.query("#animal")[0].children[0].value,
+        "question" : dojo.query("#question")[0].children[0].value,
+        "answer" : dojo.query("#answer")[0].children[0].value,
         "parent" : dojo.query("#node")[0].value
       },
       method: "get",
       handleAs: "json",
       load: function(data) {
         console.log("New node created");
+        dojo.query("#animal")[0].children[0].value = "";
+        dojo.query("#question")[0].children[0].value = "";
+        dojo.query("#answer")[0].children[0].value = "";
       },
       error: function(err) {
         dojo.query("#text")[0].innerText = "Uh-oh, something went wrong!";
@@ -55,6 +65,9 @@
     });
   }
 
+  // Game play methods:
+  // Ask: Method to as an animal question
+  //   Can you fly? or Are you an insect? or Are you a mouse?
   ask = function() {
     dojo.attr(dojo.query("#ok_button")[0], "class", "hide");
     dojo.attr(dojo.query("#other_buttons")[0], "class", "show");
@@ -72,11 +85,13 @@
     });
   }
 
-  response = function(response) {
+  // Response: Method to gather the response from the user
+  // and return it server side to decide what's next
+  response = function(resp) {
     dojo.xhrGet({
       url: "#{answer_url}",
       content: {
-        "response" : response,
+        "response" : resp,
         "node_id" : dojo.query("#node")[0].value
       },
       method: "get",

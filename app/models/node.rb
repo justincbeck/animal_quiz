@@ -6,7 +6,6 @@ class Node < ActiveRecord::Base
   attr_accessor :answer
 
   def ask
-    @output.puts question
     self.answer = gets.chomp
     case self.answer
       when "yes" then
@@ -14,10 +13,6 @@ class Node < ActiveRecord::Base
       when "no" then
         do_no
     end
-  end
-
-  def answer
-
   end
 
   private
