@@ -6,5 +6,6 @@ class AddColumnsToNode < ActiveRecord::Migration
     add_column :nodes, :root, :boolean, :null => false, :default => false
     add_column :nodes, :animal, :string
     add_column :nodes, :question, :string
+    add_column :nodes, :answer, :string
   end
 end

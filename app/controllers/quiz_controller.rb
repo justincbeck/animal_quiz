@@ -10,6 +10,10 @@ class QuizController < ApplicationController
   def answer
     node = !params[:node_id].nil? ? Node.find(params[:node_id]) : Node.find_by_root(true)
     node.answer = params[:response]
+    node.save
+
+
+
     if params[:response].eql? "y"
       if node.yes.nil?
         render :json => {:c_winner => true}.to_json

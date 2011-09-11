@@ -3,8 +3,6 @@ class Node < ActiveRecord::Base
   belongs_to :yes, :class_name => "Node"
   belongs_to :parent, :class_name => "Node"
 
-  attr_accessor :answer
-
   def insert_new_node animal, question, answer
     new_parent = Node.create({:question => question})
     new_animal = Node.create({:question => "Are you a #{animal}", :animal => animal, :parent => new_parent})
@@ -14,6 +12,7 @@ class Node < ActiveRecord::Base
     if self.root
       new_parent.root = true
       new_parent.save
+
       self.root = false
       self.save
     end
@@ -33,14 +32,13 @@ class Node < ActiveRecord::Base
   end
 
   def insert_into_tree new_parent
-    logger.info "Parent: " + self.parent.to_json
     if !self.parent.nil?
-      logger.info "Parent (answer): " + self.parent.answer.to_s
-      if self.parent.answer.eql? "no"
+      if self.parent.answer.eql? "n"
         self.parent.no = new_parent
       else
         self.parent.yes = new_parent
       end
+      self.parent.save
     end
 
     new_parent.parent = self.parent

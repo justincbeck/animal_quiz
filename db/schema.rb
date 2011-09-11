@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20110910121054) do
     t.boolean  "root",       :default => false, :null => false
     t.string   "animal"
     t.string   "question"
+    t.string   "answer"
   end
 
 end
