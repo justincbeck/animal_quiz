@@ -1,5 +1,6 @@
 class QuizController < ApplicationController
   def begin
+    # This space intentionally left blank
   end
 
   def ask
@@ -12,8 +13,7 @@ class QuizController < ApplicationController
     node.answer = params[:response]
     node.save
 
-
-
+    # TODO: This could get refactored
     if params[:response].eql? "y"
       if node.yes.nil?
         render :json => {:c_winner => true}.to_json
@@ -23,7 +23,7 @@ class QuizController < ApplicationController
       end
     else
       if node.no.nil?
-        render :json => {:p_winner => true}.to_json
+        render :json => {:p_winner => true, :animal => node.animal }.to_json
       else
         no = node.no
         render :json => {:node_id => no.id, :question => no.question}.to_json

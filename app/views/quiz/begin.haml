@@ -1,67 +1,99 @@
+%div{ :dojoType => "dijit.Tooltip", :style => "display:none", :position => "left", :connectId => "question_input" }
+  .custom_tooltip
+    Some content
+
+#preliminary_instructions.show
+  %p
+    You're going to think of an animal. Then I'm going to ask some questions that
+    can be answered with yes or no to try to figure out what animal you're thinking
+    of.
+  %p
+    If I can't figure out what animal you're thinking of, I'll ask you to teach
+    me about the animal so that I'll be able to guess correctly the next time
+    someone thinks of that animal.
+
+  %button#lets_go.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: begin();" }
+    OK
+
 #outer.centered
-  #text.show.text
-    Think of an animal...
+  #questions.hide Think of an animal...
 
   // This section is for gathering new info on a new node
   #animal.hide
     %input#animal_input
-    %input#animal_button.button{ :type => :button, :value => "OK", :onclick => "javascript: animal();" }
+    %button#animal_button.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: animal();" }
+      OK
   #question.hide
     %input#question_input
-    %input#animal_button.button{ :type => :button, :value => "OK", :onclick => "javascript: question();" }
+    %button#animal_button.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: question();" }
+      OK
   #answer.hide
-    %input#animal_button_yes.button{ :type => :button, :value => "YES", :onclick => "javascript: answer('y');" }
-    %input#animal_button_no.button{ :type => :button, :value => "NO", :onclick => "javascript: answer('n');" }
+    %button#animal_button_yes.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: answer('y');" }
+      YES
+    %button#animal_button_no.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: answer('n');" }
+      NO
 
   // This section is for asking node questions and gathering responses
   %input#node.hide
   #buttons
-    #ok_button.show
-      %input#go.button{ :type => :button, :value => "OK", :onclick => "javascript: ask();" }
+    #ok_button.hide
+      %button#go.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: ask();" }
+        OK
     #other_buttons.hide
-      %input#yes.button{ :type => :button, :value => "YES", :onclick => "javascript: response('y');" }
-      %input#no.button{ :type => :button, :value => "NO", :onclick => "javascript: response('n');" }
+      %button#yes.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: response('y');" }
+        YES
+      %button#no.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: response('n');" }
+        NO
 
 :javascript
+  dojo.require("dijit.form.Button");
+  dojo.require("dojo.parser");
+  dojo.require("dijit.Tooltip");
+
+  begin = function() {
+    dojo.attr(dojo.byId("preliminary_instructions"), "class", "hide");
+    dojo.attr(dojo.byId("questions"), "class", "show");
+    dojo.attr(dojo.byId("ok_button"), "class", "show");
+  }
+
   // Methods for gathering info to populate new node(s)
   // Animal: What animal were you thinking of?
   animal = function() {
-    dojo.attr(dojo.query("#animal")[0], "class", "hide");
-    dojo.query("#text")[0].innerText = "Question:";
-    dojo.attr(dojo.query("#question")[0], "class", "show");
+    dojo.attr(dojo.byId("animal"), "class", "hide");
+    dojo.byId("questions").innerText = "Give me a question to distinguish a foo from a bar.";
+    dojo.attr(dojo.byId("question"), "class", "show");
   }
 
   // Question: Please provide a question that would help me
   // distinguish the animal I guessed form the animal you
   // were thinking of
   question = function() {
-    dojo.attr(dojo.query("#question")[0], "class", "hide");
-    dojo.query("#text")[0].innerText = "Answer:";
-    dojo.attr(dojo.query("#answer")[0], "class", "show");
+    dojo.attr(dojo.byId("question"), "class", "hide");
+    dojo.byId("questions").innerText = "For bar what is the answer to your question?";
+    dojo.attr(dojo.byId("answer"), "class", "show");
   }
 
   // Answer: What would the answer to the question you just
   // gave me be for the animal you were just thinking of?
   answer = function(resp) {
-    dojo.query("#text")[0].innerText = "Thanks!";
-    dojo.attr(dojo.query("#answer")[0], "class", "hide");
+    dojo.attr(dojo.byId("answer"), "class", "hide");
     dojo.xhrGet({
       url: "#{new_node_url}",
       content: {
-        "animal" : dojo.query("#animal input")[0].value,
-        "question" : dojo.query("#question input")[0].value,
+        "animal" : dojo.byId("animal_input").value,
+        "question" : dojo.byId("question_input").value,
         "answer" : resp,
-        "parent" : dojo.query("#node")[0].value
+        "parent" : dojo.byId("node").value
       },
       method: "get",
       handleAs: "json",
       load: function(data) {
-        dojo.query("#animal input")[0].value = "";
-        dojo.query("#question input")[0].value = "";
-        dojo.query("#answer input")[0].value = "";
+        dojo.byId("animal_input").value = "";
+        dojo.byId("question_input").value = "";
+        dojo.byId("questions").innerText = "Thanks!";
       },
       error: function(err) {
-        dojo.query("#text")[0].innerText = "Uh-oh, something went wrong!";
+        dojo.byId("questions").innerText = "Uh-oh, something went wrong!";
       }
     });
   }
@@ -70,18 +102,18 @@
   // Ask: Method to ask an animal question
   //   Can you fly? or Are you an insect? or Are you a mouse?
   ask = function() {
-    dojo.attr(dojo.query("#ok_button")[0], "class", "hide");
-    dojo.attr(dojo.query("#other_buttons")[0], "class", "show");
+    dojo.attr(dojo.byId("ok_button"), "class", "hide");
+    dojo.attr(dojo.byId("other_buttons"), "class", "show");
     dojo.xhrGet({
       url: "#{ask_url}",
       method: "get",
       handleAs: "json",
       load: function(data) {
-        dojo.query("#text")[0].innerText = data["question"];
-        dojo.query("#node")[0].value = data["node_id"];
+        dojo.byId("questions").innerText = data["question"];
+        dojo.byId("node").value = data["node_id"];
       },
       error: function(err) {
-        dojo.query("#text")[0].innerText = "Uh-oh, something went wrong!";
+        dojo.byId("questions").innerText = "Uh-oh, something went wrong!";
       }
     });
   }
@@ -93,32 +125,32 @@
       url: "#{answer_url}",
       content: {
         "response" : resp,
-        "node_id" : dojo.query("#node")[0].value
+        "node_id" : dojo.byId("node").value
       },
       method: "get",
       handleAs: "json",
       load: function(data) {
         if (data["p_winner"])
         {
-          dojo.attr(dojo.query("#buttons")[0], "class", "hide");
-          dojo.query("#text")[0].innerText = "You win! Help me learn from my mistake before you go...";
-          setTimeout('dojo.query("#text")[0].innerText = "What animal are you?"', 2000);
-          setTimeout('dojo.attr(dojo.query("#animal")[0], "class", "show")', 2000);
+          dojo.attr(dojo.byId("buttons"), "class", "hide");
+          dojo.byId("questions").innerText = "You win! Help me learn from my mistake before you go...";
+          setTimeout('dojo.byId("questions").innerText = "What animal are you?"', 2000);
+          setTimeout('dojo.attr(dojo.byId("animal"), "class", "show")', 2000);
         }
         else if (data["c_winner"])
         {
-          dojo.attr(dojo.query("#buttons")[0], "class", "hide");
-          dojo.query("#text")[0].innerText = "I win!";
-          dojo.query("#node")[0].value = data["node_id"];
+          dojo.attr(dojo.byId("buttons"), "class", "hide");
+          dojo.byId("questions").innerText = "I win!";
+          dojo.byId("node").value = data["node_id"];
         }
         else
         {
-          dojo.query("#text")[0].innerText = data["question"];
-          dojo.query("#node")[0].value = data["node_id"];
+          dojo.byId("questions").innerText = data["question"];
+          dojo.byId("node").value = data["node_id"];
         }
       },
       error: function(err) {
-        dojo.query("#text")[0].innerText = "Uh-oh, something went wrong!";
+        dojo.byId("questions").innerText = "Uh-oh, something went wrong!";
       }
     });
   }
