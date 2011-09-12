@@ -5,9 +5,6 @@ gem 'rails', '3.1.0'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-# gem 'sqlite3'
-
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -24,19 +21,19 @@ gem 'jquery-rails'
 # Deploy with Capistrano
 # gem 'capistrano'
 
-# To use debugger
-gem 'ruby-debug19', :require => 'ruby-debug'
-
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
+  gem 'rspec'
+  gem 'rspec-rails'
+
+  # To use debugger
+  gem 'ruby-debug19', :require => 'ruby-debug'
 end
 
 # Other gems I need
 gem 'haml'
-gem 'rspec'
-gem 'rspec-rails'
-gem 'rubygems-update'
+gem 'rubygems-update', :group => [:development, :test]
 gem 'heroku'
-
 gem 'mysql'
+gem 'pg'
