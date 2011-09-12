@@ -4,8 +4,8 @@ class Node < ActiveRecord::Base
   belongs_to :parent, :class_name => "Node"
 
   def insert_new_node animal, question, answer
-    new_parent = Node.create({:question => question})
-    new_animal = Node.create({:question => "Are you a #{animal}", :animal => animal, :parent => new_parent})
+    new_parent = Node.create({:question => /\?$/.match(question) ? question : (question + "?")})
+    new_animal = Node.create({:question => "Are you a #{animal}?", :animal => animal, :parent => new_parent})
 
     assign_to_new_parent new_parent, new_animal, answer
 

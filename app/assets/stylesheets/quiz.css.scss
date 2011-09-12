@@ -14,7 +14,7 @@ body {
   text-align: center;
   position: absolute;
   left:12%;
-  top:45%;
+  top:35%;
   width: 76%;
   margin: auto;
 }
@@ -27,15 +27,11 @@ body {
   display: none;
 }
 
-.button {
-  font-size: 1.2em;
-}
-
 #animal_input {
   display: block;
   position: relative;
   width: 24%;
-  font-size:1.2em;
+  font-size:1.4em;
   left: 38%;
 }
 
@@ -43,17 +39,26 @@ body {
   display: block;
   position: relative;
   width: 50%;
-  font-size:1.2em;
+  font-size:1.4em;
+  left: 25%;
+}
+
+#answer_input {
+  display: block;
+  position: relative;
+  margin-bottom: -15px;
+  width: 50%;
+  font-size:1.4em;
   left: 25%;
 }
 
 #outer {
-  line-height: 3em;
+  line-height: 3.5em;
 }
 
 #lets_go {
   position: relative;
-  left: 45%;
+  left: 42%;
   margin-top: -15px;
   text-align: center;
 }
@@ -62,23 +67,23 @@ body {
   margin-top: 20px;
 }
 
-input.button {
+.button {
   font-size: 1.5em;
-  width: 80px;
+  width: 60px;
 }
 
 #preliminary_instructions {
   position: absolute;
-  left: 34%;
-  top: 20%;
+  left: 28%;
+  margin-top: -80px;
   width: 462px;
-  height: 210px;
+  height: 230px;
   padding: 1%;
   border-style: solid;
   border-width: thin;
   border-color: lightgray;
   border-radius: 10px;
-  font-size: 1.1em;
+  font-size: 1.3em;
   font-family: helvetica;
   text-align: justify;
   color: gray;
@@ -87,12 +92,12 @@ input.button {
   }
 }
 
-#new_node_instructions {
-
-}
-
 #questions {
-  font-size: 1.5em;
+  font-size: 1.8em;
   font-family: helvetica;
   width: 75%;
+}
+
+#answer {
+  width: 50%
 }

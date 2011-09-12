@@ -1,18 +1,18 @@
-#preliminary_instructions.show
-  %p
-    You're going to think of an animal. Then I'm going to ask some questions that
-    can be answered with yes or no to try to figure out what animal you're thinking
-    of.
-  %p
-    If I can't figure out what animal you're thinking of, I'll ask you to teach
-    me about the animal so that I'll be able to guess correctly the next time
-    someone thinks of that animal.
-
-  %button#lets_go.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: begin();" }
-    OK
-
 #outer.centered
-  #questions.hide Think of an animal...
+  #preliminary_instructions.show
+    %p
+      You're going to think of an animal. Then I'm going to ask some questions that
+      can be answered with yes or no to try to figure out what animal you're thinking
+      of.
+    %p
+      If I can't figure out what animal you're thinking of, I'll ask you to teach
+      me about the animal so that I'll be able to guess correctly the next time
+      someone thinks of that animal.
+
+    %button#lets_go.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: begin();" }
+      OK
+
+  #questions.hide Think of an animal
 
   // This section is for gathering new info on a new node
   #animal.hide
@@ -21,12 +21,14 @@
       OK
   #question.hide
     %input#question_input
-    %button#animal_button.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: question();" }
+    %button#question_button.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: question();" }
       OK
   #answer.hide
-    %button#animal_button_yes.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: answer('y');" }
+    %span#answer_input
+      &nbsp;
+    %button#answer_button_yes.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: answer('y');" }
       YES
-    %button#animal_button_no.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: answer('n');" }
+    %button#answer_button_no.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: answer('n');" }
       NO
 
   // This section is for asking node questions and gathering responses
@@ -46,10 +48,12 @@
   dojo.require("dojo.parser");
   dojo.require("dijit.Tooltip");
 
+  var remote_animal = null;
+
   dojo.addOnLoad(function() {
     new dijit.Tooltip({
       connectId: ["question_input"],
-      label: "How much wood could a woodchuck chuck if a woodchuck could chuck wood?",
+      label: "This might be something like: 'Can you fly?' or 'Are you reptillian?', as long as it can be aswered with 'yes' or 'no'.",
       position: ["above"]
     });
   });
@@ -64,7 +68,8 @@
   // Animal: What animal were you thinking of?
   animal = function() {
     dojo.attr(dojo.byId("animal"), "class", "hide");
-    dojo.byId("questions").innerText = "Give me a question to distinguish a foo from a bar.";
+    var animal = dojo.byId("animal_input").value
+    dojo.byId("questions").innerText = "Give me a question to distinguish a " + remote_animal + " from a " + animal + ".";
     dojo.attr(dojo.byId("question"), "class", "show");
   }
 
@@ -73,7 +78,8 @@
   // were thinking of
   question = function() {
     dojo.attr(dojo.byId("question"), "class", "hide");
-    dojo.byId("questions").innerText = "For bar what is the answer to your question?";
+    var animal = dojo.byId("animal_input").value
+    dojo.byId("questions").innerText = "For a " + animal + " what is the answer to your question?";
     dojo.attr(dojo.byId("answer"), "class", "show");
   }
 
@@ -140,6 +146,7 @@
           dojo.byId("questions").innerText = "You win! Help me learn from my mistake before you go...";
           setTimeout('dojo.byId("questions").innerText = "What animal are you?"', 2000);
           setTimeout('dojo.attr(dojo.byId("animal"), "class", "show")', 2000);
+          remote_animal = data["animal"];
         }
         else if (data["c_winner"])
         {
