@@ -21,7 +21,7 @@ class Node < ActiveRecord::Base
   end
 
   def assign_to_new_parent new_parent, new_animal, answer
-    if answer.eql? "yes"
+    if answer.eql? "y"
       new_parent.no = self
       new_parent.yes = new_animal
     else

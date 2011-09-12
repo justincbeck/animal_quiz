@@ -10,8 +10,8 @@
     %input#question_input
     %input#animal_button.button{ :type => :button, :value => "OK", :onclick => "javascript: question();" }
   #answer.hide
-    %input#answer_input
-    %input#animal_button.button{ :type => :button, :value => "OK", :onclick => "javascript: answer();" }
+    %input#animal_button_yes.button{ :type => :button, :value => "YES", :onclick => "javascript: answer('y');" }
+    %input#animal_button_no.button{ :type => :button, :value => "NO", :onclick => "javascript: answer('n');" }
 
   // This section is for asking node questions and gathering responses
   %input#node.hide
@@ -42,21 +42,20 @@
 
   // Answer: What would the answer to the question you just
   // gave me be for the animal you were just thinking of?
-  answer = function() {
-    dojo.query("#text")[0].innerText = "Thanks! Play again?";
+  answer = function(resp) {
+    dojo.query("#text")[0].innerText = "Thanks!";
     dojo.attr(dojo.query("#answer")[0], "class", "hide");
     dojo.xhrGet({
       url: "#{new_node_url}",
       content: {
         "animal" : dojo.query("#animal input")[0].value,
         "question" : dojo.query("#question input")[0].value,
-        "answer" : dojo.query("#answer input")[0].value,
+        "answer" : resp,
         "parent" : dojo.query("#node")[0].value
       },
       method: "get",
       handleAs: "json",
       load: function(data) {
-        console.log("New node created");
         dojo.query("#animal input")[0].value = "";
         dojo.query("#question input")[0].value = "";
         dojo.query("#answer input")[0].value = "";
