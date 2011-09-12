@@ -1,7 +1,3 @@
-%div{ :dojoType => "dijit.Tooltip", :style => "display:none", :position => "left", :connectId => "question_input" }
-  .custom_tooltip
-    Some content
-
 #preliminary_instructions.show
   %p
     You're going to think of an animal. Then I'm going to ask some questions that
@@ -49,6 +45,14 @@
   dojo.require("dijit.form.Button");
   dojo.require("dojo.parser");
   dojo.require("dijit.Tooltip");
+
+  dojo.addOnLoad(function() {
+    new dijit.Tooltip({
+      connectId: ["question_input"],
+      label: "How much wood could a woodchuck chuck if a woodchuck could chuck wood?",
+      position: ["above"]
+    });
+  });
 
   begin = function() {
     dojo.attr(dojo.byId("preliminary_instructions"), "class", "hide");
