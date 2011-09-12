@@ -1,0 +1,103 @@
+// Place all the styles related to the Quiz controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dojo/resources/dojo.css";
+@import "http://ajax.googleapis.com/ajax/libs/dojo/1.6.1/dijit/themes/tundra/tundra.css";
+
+body {
+  height: 100%;
+  width: 100%;
+}
+
+.centered {
+  text-align: center;
+  position: absolute;
+  left:12%;
+  top:35%;
+  width: 76%;
+  margin: auto;
+}
+
+.show {
+  display: inline;
+}
+
+.hide {
+  display: none;
+}
+
+#animal_input {
+  display: block;
+  position: relative;
+  width: 24%;
+  font-size:1.4em;
+  left: 38%;
+}
+
+#question_input {
+  display: block;
+  position: relative;
+  width: 50%;
+  font-size:1.4em;
+  left: 25%;
+}
+
+#answer_input {
+  display: block;
+  position: relative;
+  margin-bottom: -15px;
+  width: 50%;
+  font-size:1.4em;
+  left: 25%;
+}
+
+#outer {
+  line-height: 3.5em;
+}
+
+#lets_go {
+  position: relative;
+  left: 42%;
+  margin-top: -15px;
+  text-align: center;
+}
+
+#buttons {
+  margin-top: 20px;
+}
+
+.button {
+  font-size: 1.5em;
+  width: 60px;
+}
+
+#preliminary_instructions {
+  position: absolute;
+  left: 28%;
+  margin-top: -80px;
+  width: 462px;
+  height: 230px;
+  padding: 1%;
+  border-style: solid;
+  border-width: thin;
+  border-color: lightgray;
+  border-radius: 10px;
+  font-size: 1.3em;
+  font-family: helvetica;
+  text-align: justify;
+  color: gray;
+  p {
+    margin-top: 0px;
+  }
+}
+
+#questions {
+  font-size: 1.8em;
+  font-family: helvetica;
+  width: 75%;
+}
+
+#answer {
+  width: 50%
+}
