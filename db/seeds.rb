@@ -6,4 +6,4 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Node.create(root: true, animal: "bear", question: "Are you a bear?")
+Node.create(root: true, animal: "bear", question: "Is it a bear?")

@@ -2,7 +2,7 @@
   #preliminary_instructions.show
     %p
       You're going to think of an animal. Then I'm going to ask some questions that
-      can be answered with yes or no to try to figure out what animal you're thinking
+      can be answered with 'yes' or 'no' to try to figure out what animal you're thinking
       of.
     %p
       If I can't figure out what animal you're thinking of, I'll ask you to teach
@@ -42,6 +42,8 @@
         YES
       %button#no.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: response('n');" }
         NO
+    #play_again.hide
+      %button#again.button{ :dojoType => "dijit.form.Button", :onclick => "javascript: ask();" }
 
 :javascript
   dojo.require("dijit.form.Button");
@@ -53,7 +55,7 @@
   dojo.addOnLoad(function() {
     new dijit.Tooltip({
       connectId: ["question_input"],
-      label: "This might be something like: 'Can you fly?' or 'Are you reptillian?', as long as it can be aswered with 'yes' or 'no'.",
+      label: "This might be something like: 'Can it fly?' or 'Is it reptillian?', as long as it can be aswered with 'yes' or 'no'.",
       position: ["above"]
     });
   });
@@ -100,7 +102,13 @@
       load: function(data) {
         dojo.byId("animal_input").value = "";
         dojo.byId("question_input").value = "";
-        dojo.byId("questions").innerText = "Thanks!";
+        if (data["success"]) {
+          dojo.byId("questions").innerText = "Thanks!";
+        }
+        else
+        {
+          dojo.byId("questions").innerText = "You didn't teach me correctly, try again!";
+        }
       },
       error: function(err) {
         dojo.byId("questions").innerText = "Uh-oh, something went wrong!";
@@ -144,7 +152,7 @@
         {
           dojo.attr(dojo.byId("buttons"), "class", "hide");
           dojo.byId("questions").innerText = "You win! Help me learn from my mistake before you go...";
-          setTimeout('dojo.byId("questions").innerText = "What animal are you?"', 2000);
+          setTimeout('dojo.byId("questions").innerText = "What animal are you thinking of?"', 2000);
           setTimeout('dojo.attr(dojo.byId("animal"), "class", "show")', 2000);
           remote_animal = data["animal"];
         }

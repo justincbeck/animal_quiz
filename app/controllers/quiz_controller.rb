@@ -13,7 +13,6 @@ class QuizController < ApplicationController
     node.answer = params[:response]
     node.save
 
-    # TODO: This could get refactored
     if params[:response].eql? "y"
       if node.yes.nil?
         render :json => {:c_winner => true}.to_json
@@ -33,8 +32,11 @@ class QuizController < ApplicationController
 
   def new_node
     node = Node.find(params[:parent])
-    node.insert_new_node params[:animal], params[:question], params[:answer]
-
-    render :json => {:success => true}
+    if !params[:animal].blank? and !params[:question].blank?
+      node.insert_new_node params[:animal], params[:question], params[:answer]
+      render :json => {:success => true}
+    else
+      render :json => {:success => false}
+    end
   end
 end
