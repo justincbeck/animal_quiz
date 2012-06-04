@@ -21,6 +21,14 @@ gem 'jquery-rails'
 # Deploy with Capistrano
 # gem 'capistrano'
 
+# Other gems I need
+gem 'haml'
+gem 'rubygems-update', :group => [:development, :test]
+gem 'heroku'
+gem 'taps'
+gem 'mysql'
+gem 'pg'
+
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
